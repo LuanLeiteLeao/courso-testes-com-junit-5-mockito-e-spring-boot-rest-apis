@@ -42,9 +42,17 @@ public class UserServiceImpl implements UserService{
     }
     
     @Override
+    @Transactional
     public User update(UserDTO obj) {
         return this.create(obj);
         // return repository.save(mapper.map(obj,User.class));
+    }
+
+    @Override
+    public void delete(Integer id) {
+        findById(id);
+      repository.deleteById(id);
+        
     }
 
     private void findByEmailOrDataIntegrityViolationException(UserDTO obj){
@@ -54,6 +62,7 @@ public class UserServiceImpl implements UserService{
             throw new DataIntegrityViolationException("E-mail já cadastado no sistema");
         }
     }
+
 
     
 }
