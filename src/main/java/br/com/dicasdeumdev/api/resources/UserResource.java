@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.dicasdeumdev.api.domain.User;
 import br.com.dicasdeumdev.api.services.UserService;
-import br.com.dicasdeumdev.api.services.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/user")
