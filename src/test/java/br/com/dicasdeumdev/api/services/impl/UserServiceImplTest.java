@@ -1,5 +1,7 @@
 package br.com.dicasdeumdev.api.services.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -15,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import br.com.dicasdeumdev.api.domain.User;
 import br.com.dicasdeumdev.api.domain.dto.UserDTO;
 import br.com.dicasdeumdev.api.repositories.UserRepository;
+import br.com.dicasdeumdev.api.services.exceptions.ObjectNotFoundException;
 
 @SpringBootTest
 public class UserServiceImplTest {
@@ -74,6 +77,18 @@ public class UserServiceImplTest {
         Assertions.assertEquals(ID, reponse.getId());
         Assertions.assertEquals(EMAIL, reponse.getEmail());
         Assertions.assertEquals(NAME, reponse.getName());
+    }
+
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException() {
+        Mockito.when(repository.findById(Mockito.anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado"));
+
+        try{
+            service.findById(ID);
+        }catch(Exception ex){
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals("Objeto não encontrado", ex.getMessage());
+        }
     }
 
     @Test
